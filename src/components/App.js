@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React from "react";
+import Items from "./Items"
 import "./../styles/App.css";
 
 
@@ -141,79 +142,10 @@ const states = [{
 function App() 
 {
 	// Do not alter/remove main div
-	const [selectedState, setSelectedState] = useState(states[0].name);
-	const [stateData, setStateData] = useState({});
-
-	const [citys, setCitys] = useState([]);
-	const [selectedCity, setSelectedCity] = useState('');
-	const [cityData, setCityData] = useState({});
-
-	const [landmarks, setLandmarks] = useState([]);
-	const [selectedLandmark, setSelectedLandmark] = useState('');
-	const [landmarkData, setLandmarkData] = useState({});
-
-	useEffect(() => {
-		const data = states.filter((state) => state.name === selectedState);
-		console.log(data[0]);
-		setStateData(data[0]);
-		setCitys(data[0].city);
-		setSelectedCity(data[0].city[0].name);
-	}, [selectedState]);
-
-
-	useEffect(() => {
-		const data = citys.filter((city) => city.name === selectedCity);
-		setCityData(data[0]);
-		if(data.length > 0){
-			setLandmarks(data[0].landmarks);
-			setSelectedLandmark(data[0].landmarks[0].name);
-		}
-	}, [selectedCity]);
-
-	useEffect(() => {
-		console.log(selectedLandmark);
-		const data = landmarks.filter((landmark) => landmark.name === selectedLandmark);
-		setLandmarkData(data[0]);
-	}, [selectedLandmark]);
-
 	
 	return (
 	<div id="main">
-		<div id="state-title">States: </div>
-		<select value={selectedState} name="state" id="state" onChange={e => setSelectedState(e.target.value)}>
-			{states.map((state, idx) => (
-				<option key={state+idx} value={state.name}>{state.name}</option>
-				))}
-		</select>
-		<div id="state-name">{selectedState}</div>
-		<div id="state-description">{stateData.description}</div>
-
-		<div id="city-title">Cities: </div>
-		{citys !== undefined && <select value={selectedCity} name="city" id="city" onChange={e => setSelectedCity(e.target.value)}>
-			{ citys.map((city, idx) => (
-				<option key={city+idx} value={city.name}>{city.name}</option>
-				))}
-		</select>}
-		{cityData !== undefined && 
-		<>
-		<div id="city-name">{selectedCity}</div>
-		<div id="city-description">{cityData.description}</div>
-		</>
-		}
-		
-		<div id="landmark-title">Cities: </div>
-		{landmarks !== undefined && <select value={selectedLandmark} name="landmark" id="landmark" onChange={e => setSelectedLandmark(e.target.value)}>
-			{ landmarks.map((landmark, idx) => (
-				<option key={landmark+idx} value={landmark.name}>{landmark.name}</option>
-				))}
-		</select>}
-		{landmarkData !== undefined && 
-		<>
-		<div id="landmark-name">{selectedLandmark}</div>
-		<div id="landmark-description">{landmarkData.description}</div>
-		</>
-		}
-
+		<Items states={states} />
 	</div>
 	);
 }
